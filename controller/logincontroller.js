@@ -16,7 +16,8 @@ exports.Login = async (req, res) => {
     if(!compare){
         return res.status(401).json({ message: 'Not Authorized User' });
     }
-    let token = await JWT.sign({ _id: loginUser.id }, 'demo');
-    console.log(token)
-    return res.json({...loginUser, token : token})
+    let authtoken = await JWT.sign({ _id: loginUser.id }, 'demo');
+    console.log(loginUser._id)
+    await user.findByIdAndUpdate(loginUser._id,{token: authtoken})
+    return res.json({...loginUser, token : authtoken})
   }

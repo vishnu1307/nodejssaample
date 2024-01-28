@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const user = require('./routes/user')
 const login = require('./routes/login')
- 
+const middlewareValidator = require('./middleware/middleware')
 const app = express();
 const PORT = 3000;
 const mongoDB = "mongodb://127.0.0.1/demo"
@@ -22,10 +22,18 @@ db.on('error', (error) => {
   console.log(error)
 })
 // db.connect();
- 
+async function validateCookies (req, res, next) {
+  if(req.url != '/'){
+  await middlewareValidator(req, res, next);
+  }
+  next()
+}
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(validateCookies)
 app.use('/', login)
 app.use('/user', user);
  
