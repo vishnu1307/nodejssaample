@@ -33,10 +33,12 @@ async function validateCookies (req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(validateCookies)
-app.use('/', login)
-app.use('/user', user);
- 
+// app.use(validateCookies)
+app.use('/api/v1', authentication)
+// app.use('/', login)
+// app.use('/user', user);
+app.use(require('./routes/index.routes'))
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
