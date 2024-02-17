@@ -8,17 +8,10 @@ middleware.authentication = async (req, res, next) => {
     if (!req.headers.authorization) {
       return res.status(401).json({ meta: { status: 406, message: 'Auth Token Missing!' }, error: {} })
     }
-    var token = req.headers.authorization.split('Bearer ')[1]
+    var token = req.header("authorization");
     if (!token) {
       return res.status(401).json({ meta: { status: 406, message: 'Auth Token Missing!' }, error: {} })
     }
-    // const data = await helpers.verifyToken(token)
-    // if (data && data.message === 'jwt expired') {
-    //   return res.status(401).json({ meta: { status: 401, message: 'Token Expired!' }, error: {} })
-    // }
-    // if (!data) {
-    //   return res.status(401).json({ meta: { status: 406, message: 'Invalid Token!' }, error: err })
-    // }
     const token = req.header("authorization");
     const users = await User.findOne({token: token});
     if(!users){
