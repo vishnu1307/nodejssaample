@@ -5,6 +5,9 @@ const middleware = {};
 
 middleware.authentication = async (req, res, next) => {
   try {
+    if(req.url == '/login'){
+      return next()
+    }
     if (!req.headers.authorization) {
       return res.status(401).json({ meta: { status: 406, message: 'Auth Token Missing!' }, error: {} })
     }
@@ -15,7 +18,7 @@ middleware.authentication = async (req, res, next) => {
     // const token = req.header("authorization");
     const users = await User.findOne({token: token}).lean();
     if(!users){
-      return res.status(401).json({ meta: { status: 406, message: 'Invalid Token!' }, error: {} })
+      return res.status(401).json({ meta: { status: 401, message: 'Invalid Token!' }, error: {} })
     }
     req.user = users[0];
     return next()
