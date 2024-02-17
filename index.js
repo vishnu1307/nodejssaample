@@ -1,4 +1,5 @@
 const app = require('./app')
+const server = require('http').createServer(app)
 
 app.use(require('./routes/index.routes'))
 // app.use(require('./routes/pages.routes'))
