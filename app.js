@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // app.use(validateCookies)
 app.set('port', 3000)
-// app.use('/api/v1', authentication)
+app.use('/api/v1', authentication)
 // app.use('/', login)
 // app.use('/user', user);
 // app.use(require('./routes/index.routes'))

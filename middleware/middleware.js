@@ -5,7 +5,7 @@ const middleware = {};
 
 middleware.authentication = async (req, res, next) => {
   try {
-    if(req.url == '/login'){
+    if(req.url == '/login' || req.url == '/signup'){
       return next()
     }
     if (!req.headers.authorization) {
