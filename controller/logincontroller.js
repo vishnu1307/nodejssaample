@@ -3,7 +3,9 @@ const bcrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken')
 
 
-exports.Login = async (req, res) => {
+const auth = {};
+
+auth.Login = async (req, res) => {
     console.log("Working")
 
     const loginUser = await user.findOne({email: req.body.email})
@@ -21,3 +23,19 @@ exports.Login = async (req, res) => {
     await user.findByIdAndUpdate(loginUser._id,{token: authtoken})
     return res.json({...loginUser, token : authtoken})
   }
+
+  auth.Logout = async (req, res) => {
+    try{
+        const loginUser = await user.findOne({email: req.body.email})
+        if(!loginUser){
+            return res.status(401).json({ message: 'Not Authorized User' });
+        }
+    
+        await user.findByIdAndUpdate(loginUser._id,{token: null})
+        return res.status(200).send('Logout successfully.');
+    } catch(err){
+        return res.status(401).json({ message:err });
+    }
+
+  }
+  module.exports = auth
